@@ -11,10 +11,6 @@ const usersRoutes = require("./routes/users/users")
 app.use("/events", eventsRoutes);
 app.use("/users", usersRoutes);
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-})
-
 db.once('open', () => {
   app.listen(3000, () => {
     console.log(`API server running on port 3000!`);
