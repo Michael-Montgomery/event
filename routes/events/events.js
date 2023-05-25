@@ -18,37 +18,37 @@ router.get("/", async function (req, res) {
 
 // Add new event
 
-router.post("/", async function(req, res) {
+router.post("/", async function (req, res) {
   const newEvent = new Event(req.body);
   newEvent.save();
   if (newEvent) {
-      res.status(200).json(newEvent);
+    res.status(200).json(newEvent);
   } else {
-      console.log('Uh Oh, something went wrong');
-      res.status(500).json({ message: 'something went wrong' });
+    console.log('Uh Oh, something went wrong');
+    res.status(500).json({ message: 'something went wrong' });
   }
 });
 
 // Add attendee(s) to an event
 
-router.post("/:id/attendees/add", async function(req, res) {
+router.post("/:id/attendees/add", async function (req, res) {
   const attendeesToAdd = JSON.parse(req.body.attendees)
-  
- 
- attendeesToAdd.forEach(async (val) => {
-  await Event.updateOne({_id: req.params.id}, {
-    '$push': {
-      "attendees": val
-    }
+
+
+  attendeesToAdd.forEach(async (val) => {
+    await Event.updateOne({ _id: req.params.id }, {
+      '$push': {
+        "attendees": val
+      }
+    })
   })
- })
 
 
 
 
 
   res.json('complete')
-  
+
 })
 
 // About page route.
