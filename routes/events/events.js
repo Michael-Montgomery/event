@@ -13,6 +13,16 @@ router.get("/", async function (req, res) {
   }
 });
 
+//Get event by ID
+router.get("/:id", async function (req, res) {
+  try {
+    let foundEvent = await Event.find({_id: req.params.id});
+    res.json(foundEvent)
+  } catch (err) {
+    res.send(err)
+  }
+})
+
 
 
 

@@ -3,38 +3,49 @@ const userSchema = require('./user');
 
 
 const EventSchema = new mongoose.Schema({
-  eventName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  eventDescription: {
-    type: String,
-    trim: true
-  },
-  eventDate: {
-    type: Date,
-    required: true,
-    // validate: [validateEmail, 'Please enter a valid email address'],
-    trim: true
-  },
-  attendees: [userSchema],
-  administrators: [userSchema],
-  addressLine1: {
-    type: String
-  },
-  addressLine2: {
-    type: String
-  },
-  city: {
-    type: String
-  },
-  state: {
-    type: String
-  },
-  zipCode: {
-    type: Number
-  }
+    eventName: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 3,
+        maxLength: 150
+    },
+    eventDesctiption: {
+        type: String,
+        trim: true,
+        minLength: 3,
+        maxLength: 650
+    },
+    eventDate: {
+        type: Date,
+        required: true
+    },
+    isPublicEvent: {
+        type: Boolean,
+        required: true
+    },
+    addressLine1: {
+        type: String,
+        trim: true,
+        minLength: 3,
+        maxLength: 75
+    },
+    addressLine2: {
+        type: String,
+        trim: true,
+        minLength: 3,
+        maxLength: 75
+    },
+    eventCity: {
+        type: String,
+        trim: true
+    },
+    eventState: {
+        type: String
+    },
+    eventZip: {
+        type: Number
+    }
 });
 
 const Event = mongoose.model('Event', EventSchema);
