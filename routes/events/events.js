@@ -5,22 +5,18 @@ const Event = require("../../models/event")
 
 // Get all events
 router.get("/", async function (req, res) {
-  try {
-    let foundEvents = await Event.find({});
-    res.json(foundEvents)
-  } catch (err) {
-    res.send(err)
-  }
+ Event.find()
+ .populate("owner")
+ .populate("attendees")
+ .then((event) => res.json(event))
 });
 
 //Get event by ID
 router.get("/:id", async function (req, res) {
-  try {
-    let foundEvent = await Event.find({_id: req.params.id});
-    res.json(foundEvent)
-  } catch (err) {
-    res.send(err)
-  }
+  Event.find({ _id: req.params.id})
+ .populate("owner")
+ .populate("attendees")
+ .then((event) => res.json(event))
 })
 
 
@@ -57,11 +53,9 @@ router.post("/:id/attendees/add", async function (req, res) {
 
 
   attendeesToAdd.forEach(async (val) => {
-    await Event.updateOne({ _id: req.params.id }, {
-      '$push': {
-        "attendees": val
-      }
-    })
+    await Event.findOneAndUpdate({ _id: req.params.id }, 
+      { $addToSet: { attendees: val}},
+      { new: true})
   })
 
 

@@ -4,6 +4,11 @@ const { Schema, model } = require('mongoose');
 
 
 const EventSchema = Schema({
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+        required: true
+    },
     eventName: {
         type: String,
         required: true,
