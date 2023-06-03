@@ -4,12 +4,16 @@ const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    minLength: 3,
+    maxLength: 75
   },
   lastName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    minLength: 3,
+    maxLength: 75
   },
   email: {
     type: String,
@@ -17,7 +21,9 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     unique: true,
     // validate: [validateEmail, 'Please enter a valid email address'],
-    trim: true
+    trim: true,
+    minLength: 3,
+    maxLength: 75
   },
   emailVerified: {
     type: Boolean,
@@ -28,17 +34,18 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   company: {
-    type: String
+    type: String,
+    minLength: 3,
+    maxLength: 75
   },
   title: {
-    type: String
-  },
-  adminEvents: {
-    type: [String]
+    type: String,
+    minLength: 3,
+    maxLength: 75
   }
 });
 
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-module.exports = userSchema;
+// module.exports = userSchema;

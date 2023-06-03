@@ -39,6 +39,17 @@ router.post("/", async function (req, res) {
   }
 });
 
+// Delete event
+
+router.delete("/:id", async function (req, res) {
+  try {
+      await Event.findByIdAndDelete({ _id: req.params.id });
+      res.send('Deleted!')
+  } catch (err) {
+      console.log(err)
+  }
+})
+
 // Add attendee(s) to an event
 
 router.post("/:id/attendees/add", async function (req, res) {

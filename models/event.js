@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
-const userSchema = require('./user');
+// const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
+// const userSchema = require('./user');
 
 
-const EventSchema = new mongoose.Schema({
+const EventSchema = Schema({
     eventName: {
         type: String,
         required: true,
@@ -45,9 +46,15 @@ const EventSchema = new mongoose.Schema({
     },
     eventZip: {
         type: Number
-    }
+    },
+    attendees: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'user'
+        }
+    ]
 });
 
-const Event = mongoose.model('Event', EventSchema);
+const Event = model('event', EventSchema);
 
 module.exports = Event;

@@ -48,28 +48,15 @@ router.get("/:id", function (req, res) {
 // Add new user
 router.post("/", async function (req, res) {
 
-    const isEmailPresent = await User.findOne({ email: req.body.email });
-    if (isEmailPresent) {
-        res.status(400).send('Email address is already in system! Please Login')
+    const newUser = new User(req.body);
+    newUser.save();
+    if (newUser) {
+      res.status(200).json(newUser);
     } else {
-        let newUserData = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            phoneNumber: req.body.phoneNumber,
-            emailVerified: false,
-            company: req.body.company || null,
-            title: req.body.title || null
-        }
-        const newUser = new User(newUserData);
-        newUser.save();
-        if (newUser) {
-            res.status(200).json(newUser);
-        } else {
-            console.log('Uh Oh, something went wrong');
-            res.status(500).json({ message: 'something went wrong' });
-        }
+      console.log('Uh Oh, something went wrong');
+      res.status(500).json({ message: 'something went wrong' });
     }
+    
 });
 
 // Update user
