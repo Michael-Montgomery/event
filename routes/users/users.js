@@ -49,14 +49,9 @@ router.get("/:id", function (req, res) {
 router.post("/", async function (req, res) {
 
     const newUser = new User(req.body);
-    newUser.save();
-    if (newUser) {
-      res.status(200).json(newUser);
-    } else {
-      console.log('Uh Oh, something went wrong');
-      res.status(500).json({ message: 'something went wrong' });
-    }
-    
+    newUser.save()
+        .then((doc) => res.json(doc))
+        .catch((err) => res.send(err))
 });
 
 // Update user
