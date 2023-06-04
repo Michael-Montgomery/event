@@ -35,3 +35,4 @@ Once you recieve confirmation that the server is running, you may use a tool suc
 | PUT | /events/:id | updates user record matching the ID |
 | DELETE | /events/:id | returns single user record matching ID |
 | POST | /events/:id/attendees/add | adds attendees to event matching ID |
+| POST | /events/:id/eventadmins/add | adds admins to event matching ID |
