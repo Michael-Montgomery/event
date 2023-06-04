@@ -93,7 +93,7 @@ router.post("/:id/eventadmins/add", async function (req, res) {
   res.status(201).json(`${adminsToAdd.length} administrators have successfully been added to event ${req.params.id}!`)
 })
 
-// Remove admins from event
+// Remove admins from an event
 
 router.post("/:id/eventadmins/remove", async function (req, res) {
   const eventAdminsToRemove = JSON.parse(req.body.eventAdmins)
