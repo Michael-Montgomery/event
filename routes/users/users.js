@@ -44,7 +44,6 @@ router.get("/:id", function (req, res) {
     }
 });
 
-
 // Add new user
 router.post("/", async function (req, res) {
 
