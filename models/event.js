@@ -57,6 +57,12 @@ const EventSchema = Schema({
             type: Schema.Types.ObjectId,
             ref: 'user'
         }
+    ],
+    eventAdmins: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'user'
+        }
     ]
 });
 

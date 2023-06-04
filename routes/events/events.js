@@ -5,22 +5,21 @@ const Event = require("../../models/event")
 
 // Get all events
 router.get("/", async function (req, res) {
- Event.find()
- .populate("owner")
- .populate("attendees")
- .then((event) => res.json(event))
+  Event.find()
+    .populate("owner")
+    .populate("attendees")
+    .populate("eventAdmins")
+    .then((event) => res.json(event))
 });
 
 //Get event by ID
 router.get("/:id", async function (req, res) {
-  Event.find({ _id: req.params.id})
- .populate("owner")
- .populate("attendees")
- .then((event) => res.json(event))
+  Event.find({ _id: req.params.id })
+    .populate("owner")
+    .populate("attendees")
+    .populate("eventAdmins")
+    .then((event) => res.json(event))
 })
-
-
-
 
 // Add new event
 
@@ -39,10 +38,10 @@ router.post("/", async function (req, res) {
 
 router.delete("/:id", async function (req, res) {
   try {
-      await Event.findByIdAndDelete({ _id: req.params.id });
-      res.send('Deleted!')
+    await Event.findByIdAndDelete({ _id: req.params.id });
+    res.send('Deleted!')
   } catch (err) {
-      console.log(err)
+    console.log(err)
   }
 })
 
@@ -50,20 +49,28 @@ router.delete("/:id", async function (req, res) {
 
 router.post("/:id/attendees/add", async function (req, res) {
   const attendeesToAdd = JSON.parse(req.body.attendees)
-
-
   attendeesToAdd.forEach(async (val) => {
-    await Event.findOneAndUpdate({ _id: req.params.id }, 
-      { $addToSet: { attendees: val}},
-      { new: true})
+    await Event.findOneAndUpdate({ _id: req.params.id },
+      { $addToSet: { attendees: val } },
+      { new: true })
   })
-
-
-
-
 
   res.json('complete')
 
+})
+
+// add admins to an event
+
+router.post("/:id/eventadmins/add", async function (req, res) {
+  const attendeesToAdd = JSON.parse(req.body.eventAdmins)
+
+
+  attendeesToAdd.forEach(async (val) => {
+    await Event.findOneAndUpdate({ _id: req.params.id },
+      { $addToSet: { eventAdmins: val } },
+      { new: true })
+  })
+  res.json('complete')
 })
 
 // About page route.
