@@ -36,8 +36,8 @@ router.get("/", async function (req, res) {
 // Get user by ID
 router.get("/:id", function (req, res) {
     User.find({ _id: req.params.id })
-    .then((user) => user.length === 0 ? res.status(404).send(`User ${req.params.id} was not found!`) : res.send(user))
-    .catch((err) => res.status(500).send(err));
+        .then((user) => user.length === 0 ? res.status(404).send(`User ${req.params.id} was not found!`) : res.send(user))
+        .catch((err) => res.status(500).send(err));
 });
 
 // Add new user
@@ -50,22 +50,16 @@ router.post("/", async function (req, res) {
 
 // Update user
 router.put("/:id", async function (req, res) {
-    try {
-        const doc = await User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
-        res.json(doc)
-    } catch (err) {
-        res.send(err)
-    }
+    await User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+        .then((doc) => res.send(doc))
+        .catch((err) => res.send(err))
 })
 
 //Delete user
 router.delete("/:id", async function (req, res) {
-    try {
-        await User.findByIdAndDelete({ _id: req.params.id });
-        res.send('Deleted!')
-    } catch (err) {
-        console.log(err)
-    }
+    await User.findByIdAndDelete({ _id: req.params.id })
+        .then((result) => res.send(`User ${req.params.id} has been deleted!`))
+        .catch((err) => res.send(err))
 })
 
 // Send OTP via sms
