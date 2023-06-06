@@ -22,7 +22,6 @@ router.get("/:id", async function (req, res) {
 })
 
 // Add new event
-
 router.post("/", async function (req, res) {
   const newEvent = new Event(req.body);
   newEvent.save();
@@ -35,7 +34,6 @@ router.post("/", async function (req, res) {
 });
 
 // Update event
-
 router.put("/:id", async function (req, res) {
   try {
     const doc = await Event.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
@@ -46,7 +44,6 @@ router.put("/:id", async function (req, res) {
 })
 
 // Delete event
-
 router.delete("/:id", async function (req, res) {
   try {
     await Event.findByIdAndDelete({ _id: req.params.id });
@@ -57,7 +54,6 @@ router.delete("/:id", async function (req, res) {
 })
 
 // Add attendee(s) to an event
-
 router.post("/:id/attendees/add", async function (req, res) {
   const attendeesToAdd = JSON.parse(req.body.attendees)
   attendeesToAdd.forEach(async (val) => {
@@ -69,7 +65,6 @@ router.post("/:id/attendees/add", async function (req, res) {
 })
 
 // Remove attendees from event
-
 router.post("/:id/attendees/remove", async function (req, res) {
   const attendeesToRemove = JSON.parse(req.body.attendees)
 
@@ -81,7 +76,6 @@ router.post("/:id/attendees/remove", async function (req, res) {
 })
 
 // add admins to an event
-
 router.post("/:id/eventadmins/add", async function (req, res) {
   const adminsToAdd = JSON.parse(req.body.eventAdmins)
 
@@ -94,7 +88,6 @@ router.post("/:id/eventadmins/add", async function (req, res) {
 })
 
 // Remove admins from an event
-
 router.post("/:id/eventadmins/remove", async function (req, res) {
   const eventAdminsToRemove = JSON.parse(req.body.eventAdmins)
 
