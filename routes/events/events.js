@@ -18,7 +18,7 @@ router.get("/:id", async function (req, res) {
     .populate("owner")
     .populate("attendees")
     .populate("eventAdmins")
-    .then((event) => res.json(event))
+    .then((event) => event.length === 0 ? res.status(404).send(`Event ${req.params.id} was not found!`) : res.send(event))
 })
 
 // Add new event
