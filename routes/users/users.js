@@ -37,11 +37,11 @@ router.get("/", async function (req, res) {
 router.get("/:id", function (req, res) {
     User.find({ _id: req.params.id })
     .then((user) => user.length === 0 ? res.status(404).send(`User ${req.params.id} was not found!`) : res.send(user))
+    .catch((err) => res.status(500).send(err));
 });
 
 // Add new user
 router.post("/", async function (req, res) {
-
     const newUser = new User(req.body);
     newUser.save()
         .then((doc) => res.json(doc))

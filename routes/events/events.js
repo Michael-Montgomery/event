@@ -24,33 +24,26 @@ router.get("/:id", async function (req, res) {
 // Add new event
 router.post("/", async function (req, res) {
   const newEvent = new Event(req.body);
-  newEvent.save();
-  if (newEvent) {
-    res.status(200).json(newEvent);
-  } else {
-    console.log('Uh Oh, something went wrong');
-    res.status(500).json({ message: 'something went wrong' });
-  }
+  newEvent.save()
+    .then((newEvent) => res.send(newEvent))
+    .catch((err) => res.send(err))
 });
 
 // Update event
 router.put("/:id", async function (req, res) {
-  try {
-    const doc = await Event.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
-    res.json(doc)
-  } catch (err) {
-    res.send(err)
-  }
+  await Event.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+    .then((updatedEvent) => res.send(updatedEvent))
+    .catch((err) => res.send(err))
 })
 
 // Delete event
 router.delete("/:id", async function (req, res) {
-  try {
-    await Event.findByIdAndDelete({ _id: req.params.id });
-    res.send(`Event ${req.params.id} has been deleted from the database!`)
-  } catch (err) {
-    console.log(err)
-  }
+
+  await Event.findByIdAndDelete({ _id: req.params.id })
+    .then((result) => res.send(`Event ${req.params.id} has been deleted from the database!`))
+    .catch((err) => res.send(err))
+
+
 })
 
 // Add attendee(s) to an event
@@ -69,8 +62,8 @@ router.post("/:id/attendees/remove", async function (req, res) {
   const attendeesToRemove = JSON.parse(req.body.attendees)
 
   attendeesToRemove.forEach(async (val) => {
-    await Event.findByIdAndUpdate({_id: req.params.id},
-      {$pull: {attendees: val}})
+    await Event.findByIdAndUpdate({ _id: req.params.id },
+      { $pull: { attendees: val } })
   })
   res.status(201).json(`${attendeesToRemove.length} attendees have successfully been removed from event ${req.params.id}!`)
 })
@@ -92,8 +85,8 @@ router.post("/:id/eventadmins/remove", async function (req, res) {
   const eventAdminsToRemove = JSON.parse(req.body.eventAdmins)
 
   attendeesToRemove.forEach(async (val) => {
-    await Event.findByIdAndUpdate({_id: req.params.id},
-      {$pull: {eventAdmins: val}})
+    await Event.findByIdAndUpdate({ _id: req.params.id },
+      { $pull: { eventAdmins: val } })
   })
   res.status(201).json(`${eventAdminsToRemove.length} administrators have successfully been removed from event ${req.params.id}!`)
 })
