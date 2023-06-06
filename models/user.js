@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
     minLength: 3,
     maxLength: 75
   }
-});
+}, { timestamps: true});
 
 const User = mongoose.model('user', userSchema);
 

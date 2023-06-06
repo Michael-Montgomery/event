@@ -42,8 +42,6 @@ router.delete("/:id", async function (req, res) {
   await Event.findByIdAndDelete({ _id: req.params.id })
     .then((result) => res.send(`Event ${req.params.id} has been deleted from the database!`))
     .catch((err) => res.send(err))
-
-
 })
 
 // Add attendee(s) to an event

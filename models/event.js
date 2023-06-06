@@ -64,7 +64,7 @@ const EventSchema = Schema({
             ref: 'user'
         }
     ]
-});
+}, { timestamps: true});
 
 const Event = model('event', EventSchema);
 
