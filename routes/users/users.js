@@ -35,13 +35,8 @@ router.get("/", async function (req, res) {
 
 // Get user by ID
 router.get("/:id", function (req, res) {
-    try {
-        User.findOne({ _id: req.params.id }).then((foundUser => {
-            res.json(foundUser)
-        }))
-    } catch {
-        res.send(err)
-    }
+    User.find({ _id: req.params.id })
+    .then((user) => user.length === 0 ? res.status(404).send(`User ${req.params.id} was not found!`) : res.send(user))
 });
 
 // Add new user
